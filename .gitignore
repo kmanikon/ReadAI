@@ -1,3 +1,4 @@
 *.safetensors 
 *.zip
 *.json
+.DS_Store

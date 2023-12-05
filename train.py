@@ -17,24 +17,24 @@ df_train.head()
 
 # Define readability categories based on target values
 def categorize_readability(target):
-    if -3.7 <= target <= -2.0:
-        return "Elementary"
-    elif -2.0 < target <= 0.5:
-        return "High School"
+    if target <= -1.5:
+        return "Hard"
+    elif -1.5 < target <= -0.42:
+        return "Medium"
     else:
-        return "College"
+        return "Easy"
 
 # Apply the categorization to the dataset
 df_train['readability_category'] = df_train['target'].apply(categorize_readability)
 df_train.head()
 
 label_mapping = {
-    "Elementary": 0,
-    "High School": 1,
-    "College": 2
+    "Easy": 0,
+    "Medium": 1,
+    "Hard": 2
 }
 
-train_labels = ["Elementary", "High School", "College"]
+train_labels = ["Easy", "Medium", "Hard"]
 
 # check if tokenizer works
 text = df_train['excerpt'][0]
@@ -58,7 +58,7 @@ loss_fn = torch.nn.CrossEntropyLoss()
 optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5)
 
 # Training loop
-num_epochs = 4  # Adjust as needed
+num_epochs = 5  # Adjust as needed
 model.train()
 for epoch in range(num_epochs):
     total_loss = 0.0
@@ -81,4 +81,4 @@ for epoch in range(num_epochs):
     print(f"Epoch {epoch + 1}, Average Loss: {average_loss:.4f}")
 
 # Save the trained model (adjust name)
-model.save_pretrained("fine_tuned_bigbird_model3")
+model.save_pretrained("fine_tuned_bigbird_model6")
